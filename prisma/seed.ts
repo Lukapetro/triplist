@@ -4,16 +4,17 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function seed() {
-  const email = "rachel@remix.run";
+  const email = "test@test.it";
 
   // cleanup the existing database
   await prisma.user.delete({ where: { email } }).catch(() => {
     // no worries if it doesn't exist yet
   });
+  await prisma.checklist.deleteMany();
 
-  const hashedPassword = await bcrypt.hash("racheliscool", 10);
+  const hashedPassword = await bcrypt.hash("test1234", 10);
 
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: {
       email,
       password: {
@@ -24,19 +25,29 @@ async function seed() {
     },
   });
 
-  await prisma.note.create({
+  await prisma.checklist.create({
     data: {
-      title: "My first note",
-      body: "Hello, world!",
-      userId: user.id,
+      title: "Mare",
+      description:
+        "Stai andando a prendere il sole? ecco tutto quello che ti serve",
+      imgUrl: "imgURl here",
     },
   });
 
-  await prisma.note.create({
+  const documentTaskGroup = await prisma.taskGroup.create({
     data: {
-      title: "My second note",
-      body: "Hello, world!",
-      userId: user.id,
+      title: "Documenti",
+    },
+  });
+
+  await prisma.task.create({
+    data: {
+      title: "Passaporto",
+      taskGroup: {
+        connect: {
+          id: documentTaskGroup.id,
+        },
+      },
     },
   });
 

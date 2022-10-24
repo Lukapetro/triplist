@@ -15,7 +15,6 @@ model User {
   updatedAt DateTime @updatedAt
 
   password Password?
-  notes    Note[]
 }
 
 model Password {
@@ -25,14 +24,45 @@ model Password {
   userId String @unique
 }
 
-model Note {
+model Checklist {
   id    String @id @default(cuid())
   title String
-  body  String
+  imgUrl String
+  description  String?
+
+  tasks TaskGroup[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TaskGroup {
+  id    String @id @default(cuid())
+  title String
+  description  String?
+  isDone Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+  tasks Task[]
+
+  checklist   Checklist?   @relation(fields: [checklistId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  checklistId String?
 }
+
+
+model Task {
+  id    String @id @default(cuid())
+  title String
+  description  String?
+  isChecked Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  taskGroup   TaskGroup   @relation(fields: [taskGroupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  taskGroupId String
+}
+
+

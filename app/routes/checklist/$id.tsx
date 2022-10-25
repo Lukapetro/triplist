@@ -14,14 +14,11 @@ export const loader: LoaderFunction = async ({ params }) => {
   const checklist = await getChecklist(params.id);
   invariant(checklist, `Checklist not found: ${params.id}`);
 
-  return json<LoaderData>({ checklist });
+  return json({ checklist });
 };
 
 export default function ChecklistScreen() {
-  const { checklist } = useLoaderData() as LoaderData;
-
-  console.log("checklist", checklist);
-  console.log("checklist typeof", typeof checklist.createdAt);
+  const { checklist } = useLoaderData<LoaderData>();
 
   return (
     <div className="mx-auto max-w-4xl">

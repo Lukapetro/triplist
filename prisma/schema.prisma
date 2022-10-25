@@ -30,7 +30,7 @@ model Checklist {
   imgUrl String
   description  String?
 
-  tasks TaskGroup[]
+  taskGroups TaskGroup[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

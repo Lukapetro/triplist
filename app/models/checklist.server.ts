@@ -7,5 +7,20 @@ export async function getChecklists() {
 }
 
 export async function getChecklist(id: string) {
-  return prisma.checklist.findUnique({ where: { id } });
+  return prisma.checklist.findFirst({
+    where: { id },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      taskGroups: {
+        select: {
+          id: true,
+          title: true,
+          isDone: true,
+          tasks: true,
+        },
+      },
+    },
+  });
 }

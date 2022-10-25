@@ -25,16 +25,7 @@ async function seed() {
     },
   });
 
-  await prisma.checklist.create({
-    data: {
-      title: "Mare",
-      description:
-        "Stai andando a prendere il sole? ecco tutto quello che ti serve",
-      imgUrl: "imgURl here",
-    },
-  });
-
-  const documentTaskGroup = await prisma.taskGroup.create({
+  const taskGroup = await prisma.taskGroup.create({
     data: {
       title: "Documenti",
     },
@@ -45,7 +36,21 @@ async function seed() {
       title: "Passaporto",
       taskGroup: {
         connect: {
-          id: documentTaskGroup.id,
+          id: taskGroup.id,
+        },
+      },
+    },
+  });
+
+  await prisma.checklist.create({
+    data: {
+      title: "Mare",
+      description:
+        "Stai andando a prendere il sole? ecco tutto quello che ti serve",
+      imgUrl: "imgURl here",
+      taskGroups: {
+        connect: {
+          id: taskGroup.id,
         },
       },
     },

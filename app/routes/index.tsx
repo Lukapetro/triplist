@@ -1,5 +1,6 @@
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import Header from "~/components/header";
 
 import { getChecklists } from "~/models/checklist.server";
 
@@ -13,22 +14,21 @@ export default function Index() {
   const { checklists } = useLoaderData<typeof loader>();
 
   return (
-    <main className="relative min-h-screen sm:flex sm:items-center sm:justify-center">
-      <h1 className="text-2xl font-medium text-slate-900 dark:text-white">
-        Triplist ✈️
-      </h1>
+    <main className="flex min-h-screen flex-col items-center p-8">
+      <Header />
       <ul>
         {checklists.map((checklist) => (
           <li key={checklist.id}>
             <Link
               to={`checklist/${checklist.id}`}
-              className="text-blue-600 underline"
+              className="text-slate-800 dark:text-white"
             >
               {checklist.title}
             </Link>
           </li>
         ))}
       </ul>
+      <Outlet />
     </main>
   );
 }

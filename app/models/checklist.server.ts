@@ -24,3 +24,23 @@ export async function getChecklist(id: string) {
     },
   });
 }
+
+export async function createChecklist() {
+  return prisma.checklist.create({
+    data: {
+      title: "Mare",
+      description:
+        "Stai andando a prendere il sole? ecco tutto quello che ti serve",
+      imgUrl: "imgURl here",
+    },
+  });
+}
+
+export async function updateChecklist(checklistId: string) {
+  return prisma.checklist.update({
+    where: { id: checklistId },
+    data: {
+      title: "test update",
+    },
+  });
+}

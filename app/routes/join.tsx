@@ -54,12 +54,8 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  const user = await createUser(email, password);
-
   return createUserSession({
     request,
-    userId: user.id,
-    remember: false,
     redirectTo,
   });
 }

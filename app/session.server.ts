@@ -1,4 +1,5 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
+//import { nanoid } from "nanoid";
 import invariant from "tiny-invariant";
 
 import type { User } from "~/models/user.server";
@@ -65,23 +66,21 @@ export async function requireUser(request: Request) {
 
 export async function createUserSession({
   request,
-  userId,
-  remember,
+
   redirectTo,
 }: {
   request: Request;
-  userId: string;
-  remember: boolean;
+
   redirectTo: string;
 }) {
   const session = await getSession(request);
-  session.set(USER_SESSION_KEY, userId);
+
+  //session.set(USER_SESSION_KEY, nanoid());
+
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await sessionStorage.commitSession(session, {
-        maxAge: remember
-          ? 60 * 60 * 24 * 7 // 7 days
-          : undefined,
+        maxAge: 60 * 60 * 24 * 7, // 7 days
       }),
     },
   });
